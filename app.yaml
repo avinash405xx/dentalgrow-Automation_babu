@@ -3,6 +3,9 @@ owner: avinash405xx
 name: dentagrow-api
 app_id: da_2l9IzteUYZy5
 
+env:
+  PORT: "80"
+
 annotations:
   anybuild.run/config:
     edgejs_enable: true
