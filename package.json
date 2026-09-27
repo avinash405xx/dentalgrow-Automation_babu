@@ -7,16 +7,17 @@
     "api",
     "packages/*"
   ],
-  "scripts": {
-    "dev:super": "vite --config apps/super-admin/vite.config.ts",
-    "dev:clinic": "vite --config apps/clinic-admin/vite.config.ts",
-    "dev:api": "tsx api/src/server.ts",
-    "start": "node api/src/server.ts",
-    "build:super": "vite build --config apps/super-admin/vite.config.ts",
-    "build:clinic": "vite build --config apps/clinic-admin/vite.config.ts",
-    "typecheck": "tsc --noEmit",
-    "build": "npm run build:super && npm run build:clinic"
-  },
+ "scripts": {
+  "dev:super": "vite --config apps/super-admin/vite.config.ts",
+  "dev:clinic": "vite --config apps/clinic-admin/vite.config.ts",
+  "dev:api": "tsx api/src/server.ts",
+  "start": "node api/dist/server.js",
+  "build:api": "tsc -p api/tsconfig.build.json",
+  "build:super": "vite build --config apps/super-admin/vite.config.ts",
+  "build:clinic": "vite build --config apps/clinic-admin/vite.config.ts",
+  "typecheck": "tsc --noEmit",
+  "build": "npm run build:super && npm run build:clinic"
+},
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
     "cors": "^2.8.5",
