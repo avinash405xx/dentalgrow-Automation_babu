@@ -11,6 +11,7 @@
     "dev:super": "vite --config apps/super-admin/vite.config.ts",
     "dev:clinic": "vite --config apps/clinic-admin/vite.config.ts",
     "dev:api": "tsx api/src/server.ts",
+    "start": "tsx api/src/server.ts",
     "build:super": "vite build --config apps/super-admin/vite.config.ts",
     "build:clinic": "vite build --config apps/clinic-admin/vite.config.ts",
     "typecheck": "tsc --noEmit",
