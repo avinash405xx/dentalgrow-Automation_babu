@@ -1,0 +1,1 @@
+{"name":"@dentagrow/super-admin","private":true,"version":"1.0.2","scripts":{"dev":"vite","build":"vite build"},"dependencies":{"@supabase/supabase-js":"^2.57.4","@vitejs/plugin-react":"^5.0.2","react":"^19.1.1","react-dom":"^19.1.1","vite":"^7.1.5"},"devDependencies":{}}

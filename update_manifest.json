@@ -1,0 +1,11 @@
+{
+  "latestVersion": "1.0.2",
+  "minimumSupportedVersion": "1.0.2",
+  "releaseChannel": "stable",
+  "releaseNotes": [
+    "Fixed production Vite app roots and output paths for Super Admin and Clinic Admin builds.",
+    "Preserved React TypeScript dependency fixes from v1.0.1."
+  ],
+  "artifactUrl": "",
+  "sha256": ""
+}
