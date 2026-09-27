@@ -1,0 +1,24 @@
+kind: wasmer.io/App.v0
+owner: avinash405xx
+name: dentagrow-api
+app_id: da_2l9IzteUYZy5
+
+annotations:
+  anybuild.run/config:
+    edgejs_enable: true
+    edgejs_precompile: true
+    node_build_command: ""
+    node_framework: express
+    node_install_inputs:
+      - package.json
+      - api/package.json
+    node_install_requires_all_files: true
+    node_package_manager: npm
+    node_package_name: dentagrow-suite
+    node_remove_native_binaries: true
+    node_server: express
+    npm_version: "11"
+
+  anybuild.run/provider: node
+  anybuild.run/version: 0.29.0
+  wasmer.io/version: 7.4.2
