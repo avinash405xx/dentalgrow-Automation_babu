@@ -1,0 +1,28 @@
+load("//anybuild/tools:node.bzl", "node_build", "node_config", "node_serve")
+
+# Wasmer app root is this directory (api/), proven by the production runtime
+# error path /app/src/server.ts == repo path api/src/server.ts.
+#
+# The start command is pinned to the COMPILED JavaScript entry so the provider
+# can never auto-detect and run the TypeScript source (node src/server.ts):
+#   app path  : /app/dist/server.js
+#   repo path : api/dist/server.js
+config = node_config(
+    schema = 1,
+    commands = {
+        "start": "node dist/server.js",
+    },
+    node_package_manager = "npm",
+    node_framework = "express",
+    node_server = "node",
+    node_build_command = "npm run build:api",
+    node_version = "24",
+)
+
+build = node_build(config)
+
+node_serve(
+    config,
+    build,
+    name = "dentagrow-api",
+)
