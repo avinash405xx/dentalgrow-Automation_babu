@@ -5,6 +5,9 @@ import {
   ROLE_LEVEL,
   DEFAULT_PERMISSIONS,
   Role,
+  getApiBaseUrl,
+  provisionUser,
+  useApiStatus,
 } from '../../../packages/shared/src';
 import './styles.css';
 
@@ -28,7 +31,10 @@ function App() {
   const [role, setRole] = useState<Role>('STAFF');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [orgId, setOrgId] = useState('');
+  const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
+  const api = useApiStatus();
 
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = localStorage.getItem('dentagrow-theme');
@@ -76,7 +82,7 @@ function App() {
     localStorage.setItem('dentagrow-clinic-name', clinicName);
   }, [clinicName]);
 
-  const create = () => {
+  const create = async () => {
     if (ROLE_LEVEL[role] >= ROLE_LEVEL.ADMIN) {
       setMsg(
         'Clinic Admin cannot create an equal/higher privileged role. Choose Manager, Staff or Viewer.'
@@ -89,7 +95,27 @@ function App() {
       return;
     }
 
-    setMsg('Child user request ready for secure API provisioning.');
+    if (!orgId.trim()) {
+      setMsg('Organization UUID is required — the API validates it as a UUID.');
+      return;
+    }
+
+    setBusy(true);
+
+    const result = await provisionUser({
+      email,
+      fullName: name,
+      role,
+      organizationId: orgId.trim(),
+    });
+
+    setBusy(false);
+
+    setMsg(
+      result.ok
+        ? `API accepted the request (HTTP ${result.status}).`
+        : `API refused provisioning (HTTP ${result.status}): ${result.error}`,
+    );
   };
 
   return (
@@ -146,6 +172,24 @@ function App() {
                 <Row a="Patient reactivation" b="—" />
               </div>
             </Panel>
+
+            <Panel title="API connection">
+              <div className="rows">
+                <Row a="Endpoint" b={getApiBaseUrl()} />
+                <Row
+                  a="Health"
+                  b={api.loading ? 'checking…' : api.online ? 'ok' : 'unavailable'}
+                />
+                <Row a="Service" b={api.service || '—'} />
+                <Row a="API version" b={api.apiVersion || '—'} />
+                <Row a="Latest release" b={api.latestRelease || '—'} />
+                <Row a="Last problem" b={api.problem || 'none'} />
+              </div>
+
+              <button className="primary" onClick={() => void api.refresh()}>
+                Re-check API
+              </button>
+            </Panel>
           </>
         )}
 
@@ -170,6 +214,12 @@ function App() {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
+              <input
+                placeholder="Organization UUID"
+                value={orgId}
+                onChange={(e) => setOrgId(e.target.value)}
+              />
+
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value as Role)}
@@ -181,8 +231,12 @@ function App() {
                 ))}
               </select>
 
-              <button className="primary" onClick={create}>
-                Create Child
+              <button
+                className="primary"
+                disabled={busy}
+                onClick={() => void create()}
+              >
+                {busy ? 'Contacting API…' : 'Create Child'}
               </button>
             </div>
 

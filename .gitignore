@@ -18,3 +18,6 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Supabase CLI scratch state (project link / pooler metadata)
+supabase/.temp/

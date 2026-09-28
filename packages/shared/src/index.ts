@@ -45,3 +45,7 @@ export type UpdateManifest = {
   artifactUrl?: string;
   sha256?: string;
 };
+
+export * from './api';
+export * from './useApiStatus';
+
